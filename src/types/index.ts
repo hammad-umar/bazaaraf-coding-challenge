@@ -10,6 +10,8 @@ export interface ScreenNavigationProps {
   navigation: NavigationProp<RootStackParamsList>;
 }
 
+export type StackNavigation = NavigationProp<RootStackParamsList>;
+
 export interface Product {
   id: string;
   name: string;

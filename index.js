@@ -7,6 +7,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import App from './App';
 import {name as appName} from './app.json';
 import {persistor, store} from './src/redux/store';
+import {colors} from './src/theme/colors';
 
 const Main = () => {
   return (
@@ -27,6 +28,7 @@ const Main = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.tint,
   },
 });
 
