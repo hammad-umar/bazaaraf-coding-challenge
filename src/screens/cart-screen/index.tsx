@@ -16,11 +16,11 @@ const CartScreen: FC<ScreenNavigationProps> = ({navigation}) => {
       <Header title="Cart" navigation={navigation} />
 
       <FlatList
-        contentContainerStyle={{gap: spacing.md}}
         bounces
         data={items}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContentContainer}
         renderItem={({item}) => (
           <CartItem item={item} navigation={navigation} />
         )}
@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: scale(20),
     paddingHorizontal: scale(20),
+  },
+  listContentContainer: {
+    gap: spacing.md,
   },
 });
 
