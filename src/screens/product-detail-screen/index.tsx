@@ -1,21 +1,44 @@
 import {FC, useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Product, RootStackParamsList, ScreenNavigationProps} from '../../types';
+import {
+  CartProduct,
+  Product,
+  RootStackParamsList,
+  ScreenNavigationProps,
+} from '../../types';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {PRODUCTS} from '../../constants';
 import {scale} from '../../theme/scale';
 import {fonts} from '../../theme/fonts';
 import {colors} from '../../theme/colors';
 import {spacing} from '../../theme/spacing';
+import {useAppDispatch} from '../../redux/hooks';
+import {addProductToCart} from '../../redux/slices/cart.slice';
 
 const ProductDetailsScreen: FC<ScreenNavigationProps> = ({navigation}) => {
-  const [product, setProduct] = useState<Product>();
-
+  const dispatch = useAppDispatch();
   const {params} = useRoute<RouteProp<RootStackParamsList, 'ProductDetails'>>();
+
+  const [product, setProduct] = useState<Product>();
 
   const getProductDetails = (): void => {
     const foundProduct = PRODUCTS.find(p => p.id === params?.productId);
-    setProduct(foundProduct);
+
+    if (foundProduct) {
+      setProduct(foundProduct);
+    }
+  };
+
+  const handleOnPress = (): void => {
+    if (product) {
+      const payload: CartProduct = {
+        ...product,
+        quantity: 1,
+      };
+
+      dispatch(addProductToCart(payload));
+      navigation.navigate('CartScreen');
+    }
   };
 
   useEffect(() => {
@@ -27,12 +50,10 @@ const ProductDetailsScreen: FC<ScreenNavigationProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       {product ? (
-        <View style={{gap: spacing.sm}}>
-          <Text style={styles.nameTxt}>{product?.name}</Text>
-          <Text style={styles.priceTxt}>{product?.price}$</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('CartScreen')}
-            style={styles.btnContainer}>
+        <View style={styles.innerContainer}>
+          <Text style={styles.nameTxt}>{product.name}</Text>
+          <Text style={styles.priceTxt}>{product.price}$</Text>
+          <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>
             <Text style={styles.btnText}>Add To Cart</Text>
           </TouchableOpacity>
         </View>
@@ -48,6 +69,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: scale(20),
     paddingHorizontal: scale(20),
+  },
+  innerContainer: {
+    gap: spacing.sm,
   },
   nameTxt: {
     fontSize: scale(16),
