@@ -1,15 +1,32 @@
 import {FC} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {ScreenNavigationProps} from '../../types';
 import {useAppSelector} from '../../redux/hooks';
+import CartItem from '../../components/cart-item';
+import {scale} from '../../theme/scale';
+import {spacing} from '../../theme/spacing';
+import Summary from '../../components/summary';
+import Header from '../../components/header';
 
-const CartScreen: FC<ScreenNavigationProps> = () => {
-  const {items, count} = useAppSelector(state => state.cart);
+const CartScreen: FC<ScreenNavigationProps> = ({navigation}) => {
+  const {items} = useAppSelector(state => state.cart);
 
   return (
     <View style={styles.container}>
-      <Text>Cart Screen</Text>
-      <Text>{JSON.stringify({items, count}, null, 4)}</Text>
+      <Header title="Cart" navigation={navigation} />
+
+      <FlatList
+        contentContainerStyle={{gap: spacing.md}}
+        bounces
+        data={items}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => (
+          <CartItem item={item} navigation={navigation} />
+        )}
+      />
+
+      <Summary />
     </View>
   );
 };
@@ -17,6 +34,8 @@ const CartScreen: FC<ScreenNavigationProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: scale(20),
+    paddingHorizontal: scale(20),
   },
 });
 

@@ -1,18 +1,16 @@
 import {FC} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {ScreenNavigationProps} from '../../types';
 import {PRODUCTS} from '../../constants';
 import ProductCard from '../../components/product-card';
 import {spacing} from '../../theme/spacing';
 import {scale} from '../../theme/scale';
-import {useAppSelector} from '../../redux/hooks';
+import CartCount from '../../components/cart-count';
 
 const HomeScreen: FC<ScreenNavigationProps> = ({navigation}) => {
-  const {count} = useAppSelector(state => state.cart);
-
   return (
     <View style={styles.container}>
-      <Text>Cart Count: {count}</Text>
+      <CartCount />
 
       <FlatList
         bounces

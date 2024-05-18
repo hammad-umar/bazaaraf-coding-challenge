@@ -14,6 +14,7 @@ import {colors} from '../../theme/colors';
 import {spacing} from '../../theme/spacing';
 import {useAppDispatch} from '../../redux/hooks';
 import {addProductToCart} from '../../redux/slices/cart.slice';
+import Header from '../../components/header';
 
 const ProductDetailsScreen: FC<ScreenNavigationProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
@@ -49,6 +50,8 @@ const ProductDetailsScreen: FC<ScreenNavigationProps> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Header title="Product Details" navigation={navigation} />
+
       {product ? (
         <View style={styles.innerContainer}>
           <Text style={styles.nameTxt}>{product.name}</Text>
